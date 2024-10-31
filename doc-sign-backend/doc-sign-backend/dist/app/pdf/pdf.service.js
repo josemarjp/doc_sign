@@ -18,11 +18,13 @@ const pdfParse = require("pdf-parse");
 const qpdf = require("node-qpdf");
 const path = require("path");
 const dotenv = require("dotenv");
+const rxjs_1 = require("rxjs");
 dotenv.config();
 let PdfService = class PdfService {
     constructor() {
         this.pdfDir = './pdfs';
         this.decryptionKey = process.env.PDF_DECRYPTION_KEY || '';
+        this.renderUrlBase = 'http://localhost:3000/render';
         fs.ensureDirSync(this.pdfDir);
     }
     async processPdf(file) {
@@ -42,6 +44,14 @@ let PdfService = class PdfService {
         const pdfPath = path.join(this.pdfDir, `${id}.pdf`);
         (0, fs_1.writeFileSync)(pdfPath, file);
         return id;
+    }
+    async preparePdfForSigning(pdfId, name, email) {
+        const pdfPath = path.join(this.pdfDir, `${pdfId}.pdf`);
+        if (!fs.existsSync(pdfPath)) {
+            throw new rxjs_1.NotFoundError('PDF não encontrado');
+        }
+        const renderUrl = `${this.renderUrlBase}/pdfId=${pdfId}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
+        return renderUrl;
     }
 };
 exports.PdfService = PdfService;

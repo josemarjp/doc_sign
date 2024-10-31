@@ -27,6 +27,11 @@ let PdfController = class PdfController {
         const uuid = await this.pdfService.processPdf(file.buffer);
         return { uuid };
     }
+    async prepareSignature(body) {
+        const { pdfId, name, email } = body;
+        const renderUrl = await this.pdfService.preparePdfForSigning(pdfId, name, email);
+        return { renderUrl };
+    }
 };
 exports.PdfController = PdfController;
 __decorate([
@@ -37,6 +42,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PdfController.prototype, "uploadPdf", null);
+__decorate([
+    (0, common_1.Post)('prepare-signature'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PdfController.prototype, "prepareSignature", null);
 exports.PdfController = PdfController = __decorate([
     (0, common_1.Controller)('api/v1/pdf'),
     __metadata("design:paramtypes", [pdf_service_1.PdfService])

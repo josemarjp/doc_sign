@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
+import { useParams } from 'react-router-dom';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 
@@ -14,12 +15,24 @@ interface Location {
 
 interface PDFViewerProps {
     pdfUrl: string;
+    name: string | null; 
+    email: string | null; 
     onSignatureLocationSelected: (location: { x: number; y: number }) => void;
-    onDragEnd: (event: React.DragEvent<HTMLDivElement>) => void; 
+    onDragEnd: (event: React.DragEvent<HTMLDivElement>) => void;  
 }
 
 
-const PDFViewer: React.FC<PDFViewerProps> = ({ pdfUrl, onSignatureLocationSelected, onDragEnd }) => {
+const PDFViewer: React.FC<PDFViewerProps> = ({ onSignatureLocationSelected, onDragEnd }) => {
+    const { pdfId, name, email } = useParams<{ pdfId: string; name: string; email: string }>();
+
+    const [pdfUrl, setPdfUrl] = useState<string>('');
+
+    useEffect(() => {
+        if (pdfId) {
+            setPdfUrl(`/pdfs/${pdfId}.pdf`); 
+        }
+    }, [pdfId]);
+    
     const handleDragEnd = (event: React.DragEvent<HTMLDivElement>) => {
         onDragEnd(event); 
     };
@@ -29,7 +42,6 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfUrl, onSignatureLocationSelect
             <Document file={pdfUrl}>
                 <Page pageNumber={1} width={600} />
             </Document>
-            {/* Elemento arrastável para a assinatura */}
             <div
                 draggable
                 onDragEnd={handleDragEnd}
@@ -37,13 +49,20 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfUrl, onSignatureLocationSelect
                     position: 'absolute',
                     top: '40px',
                     right: '40px',
-                    width: '100px',
-                    height: '40px',
+                    width: '200px',
+                    height: '60px',
                     backgroundColor: 'yellow',
-                    cursor: 'move',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid black',
+                    borderRadius: '5px',
                 }}
-            >
-                Arraste para assinar
+                >
+                <div>
+                    <strong>Assinado por:</strong> {name}<br />
+                    <strong>Email:</strong> {email}
+                </div>
             </div>
         </div>
     );

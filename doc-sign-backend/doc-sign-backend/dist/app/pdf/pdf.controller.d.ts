@@ -5,4 +5,11 @@ export declare class PdfController {
     uploadPdf(file: Express.Multer.File): Promise<{
         uuid: string;
     }>;
+    prepareSignature(body: {
+        pdfId: string;
+        name: string;
+        email: string;
+    }): Promise<{
+        renderUrl: string;
+    }>;
 }
