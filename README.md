@@ -26,4 +26,3 @@ Este repositório implementa uma API para um sistema de **assinatura eletrônica
 - Linguagem: TypeScript
 - Criptografia: Node.js Crypto API
 - Armazenamento de Arquivos: Sistema de diretórios local
-- Banco de Dados: PostgreSQL (ou sua escolha, configurável)
