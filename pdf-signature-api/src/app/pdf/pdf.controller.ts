@@ -411,9 +411,8 @@ import {
     @Post('sign')
     async signPdf(@Body() signPdfDto: SignPdfDto, @Res() res: Response) {
         try {
-            console.log('Dados recebidos:', signPdfDto); // Log para debug
+            console.log('Dados recebidos:', signPdfDto); 
 
-            // Validação adicional
             if (!signPdfDto.filename || !signPdfDto.name || !signPdfDto.email) {
                 return res.status(400).json({
                     message: 'Dados incompletos',

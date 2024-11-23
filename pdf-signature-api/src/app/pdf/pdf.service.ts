@@ -10,17 +10,13 @@ export class PdfService {
     const { filename, name, email, position } = signPdfDto;
     const pdfPath = join(process.cwd(), 'uploads', filename);
     
-    // Lê o PDF original
     const pdfBytes = await fs.promises.readFile(pdfPath);
     const pdfDoc = await PDFDocument.load(pdfBytes);
     
-    // Obtém a primeira página
     const page = pdfDoc.getPages()[0];
     
-    // Adiciona a fonte
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     
-    // Adiciona a assinatura
     page.drawText(`Assinado por: ${name}`, {
       x: position.x,
       y: page.getHeight() - position.y,
@@ -35,7 +31,6 @@ export class PdfService {
       size: 12,
     });
     
-    // Salva o PDF
     const signedPdfBytes = await pdfDoc.save();
     
     return Buffer.from(signedPdfBytes);
