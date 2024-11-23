@@ -1,6 +1,6 @@
 # Assinatura Eletrônica Simples
 
-Este repositório implementa uma API e uma interface para um sistema de **assinatura eletrônica simples**, utilizando criptografia baseada em _private key_ para garantir a segurança. O projeto permite o upload de arquivos PDF, visualização do conteúdo, seleção de locais para assinatura através de arraste e, por fim, a assinatura do documento.
+Este repositório implementa uma API para um sistema de **assinatura eletrônica simples**, utilizando criptografia baseada em _private key_ para garantir a segurança. O projeto permite o upload de arquivos PDF, visualização do conteúdo, seleção de locais para assinatura através de arraste e, por fim, a assinatura do documento.
 
 ## 🚀 Funcionalidades
 
